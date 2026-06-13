@@ -1,1 +1,4 @@
-creditcard.csv
+.idea/
+.venv/
+__pycache__/
+*.pyc
