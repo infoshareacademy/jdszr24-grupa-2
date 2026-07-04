@@ -6,7 +6,7 @@ Projekt grupowy realizowany w ramach kursu Data Science (edycja jdszr24, grupa 2
 
 **Temat: wykrywanie oszustw w transakcjach kartami płatniczymi (fraud detection).**
 
-Zbiór danych: `data/raw/credit_card_fraud_10k.csv` — 10 000 transakcji, 10 kolumn
+Zbiór danych: `data/credit_card_fraud_10k.csv` — 10 000 transakcji, 10 kolumn
 (kwota, godzina, kategoria sprzedawcy, flagi transakcji zagranicznej i niezgodności
 lokalizacji, ocena zaufania urządzenia, liczba transakcji w 24 h, wiek posiadacza karty
 oraz zmienna celu `is_fraud`). Klasy są silnie niezbalansowane — oszustwa to **1,5%**
@@ -15,13 +15,16 @@ niezbalansowanie (recall, PR-AUC) zamiast accuracy.
 
 ### Przebieg analizy
 
-1. **`notebooks/01_eda.ipynb`** — eksploracja: jakość danych, rozkłady zmiennych,
-   udział fraudów w rozbiciu na cechy, korelacje.
-2. **`notebooks/02_feature_engineering.ipynb`** *(Sprint 2: DS24G2-11…15)* — selekcja cech
-   (mutual information + korelacje), one-hot dla `merchant_category`, cykliczne kodowanie
-   sin/cos dla `transaction_hour`, pipeline przygotowania danych bez wycieku,
-   stratyfikowany podział train/test 75/25.
-3. **`notebooks/03_model.ipynb`** *(Sprint 2: DS24G2-16…17)* — porównanie strategii obsługi
+Cały projekt znajduje się w jednym notebooku **`Ocean's_Four_Project.ipynb`**
+(wykresy osadzone w pliku):
+
+1. **Wstępne sprawdzenie danych** — jakość, braki, duplikaty, statystyki opisowe.
+2. **EDA** — rozkład klas, rozkłady zmiennych, fraud rate wg cech, korelacje, wnioski.
+3. **Przygotowanie danych** *(Sprint 2: DS24G2-11…15)* — selekcja cech (mutual
+   information + korelacje), one-hot dla `merchant_category`, cykliczne kodowanie
+   sin/cos dla `transaction_hour`, pipeline bez wycieku danych, stratyfikowany
+   podział train/test 75/25.
+4. **Modelowanie** *(Sprint 2: DS24G2-16…17)* — porównanie strategii obsługi
    niezbalansowania (bez obsługi / `class_weight='balanced'` / undersampling), strojenie
    hiperparametrów (`GridSearchCV`, 5-krotna stratyfikowana CV, metryka average precision),
    ewaluacja, dobór progu decyzyjnego maksymalizującego F1, ważność cech i wnioski biznesowe.
@@ -39,7 +42,7 @@ recall 0.95 przy precyzji 1.00 (F1 = 0.97) — wynik bliski ideału, bo dane są
 i zawierają niemal deterministyczną regułę fraudu (na rzeczywistych danych transakcyjnych
 wyniki byłyby niższe). Najsilniejsze sygnały oszustwa:
 niezgodność lokalizacji, transakcja zagraniczna, niski trust score urządzenia,
-wysoka aktywność w 24 h i wysoka kwota. Wykresy: `reports/figures/`.
+wysoka aktywność w 24 h i wysoka kwota. Wykresy — w notebooku.
 
 ## Zespół
 
@@ -52,16 +55,15 @@ wysoka aktywność w 24 h i wysoka kwota. Wykresy: `reports/figures/`.
 ## Struktura repozytorium
 
 ```
+├── Ocean's_Four_Project.ipynb   # cały projekt: EDA, przygotowanie danych, modele
 ├── data/
-│   ├── raw/          # dane surowe (nie commitujemy — patrz .gitignore)
-│   └── processed/    # dane po czyszczeniu/przetworzeniu
-├── notebooks/        # notebooki Jupyter (EDA, modelowanie)
-├── src/              # reużywalny kod Pythona (funkcje, pipeline'y)
-└── reports/
-    └── figures/      # wykresy i materiały do raportu końcowego
+│   └── credit_card_fraud_10k.csv
+├── requirements.txt
+└── README.md
 ```
 
-**Konwencja nazw notebooków:** `NN_temat_imie.ipynb`, np. `01_eda_tomasz.ipynb` — numeracja utrzymuje porządek, imię pozwala uniknąć konfliktów przy pracy równoległej.
+Katalog `data/processed/` (podzielone zbiory train/test) tworzy się przy uruchomieniu
+notebooka i jest ignorowany przez git.
 
 ## Uruchomienie środowiska
 
@@ -92,5 +94,5 @@ jupyter lab
 
 1. **Nie pracujemy bezpośrednio na `main`** — każdy tworzy własną gałąź (np. `eda-tomasz`, `model-ania`).
 2. Zmiany trafiają do `main` przez **pull request** — najlepiej z krótkim review drugiej osoby.
-3. Duże pliki danych trzymamy poza gitem (folder `data/raw/` jest ignorowany) — dane pobieramy lokalnie ze wspólnego źródła opisanego wyżej.
+3. Duże pliki danych trzymamy poza gitem — w repo jest tylko mały zbiór projektowy `data/credit_card_fraud_10k.csv`.
 4. Przed rozpoczęciem pracy: `git pull origin main`, żeby mieć aktualny stan.
