@@ -9,13 +9,8 @@ env/
 # Jupyter
 .ipynb_checkpoints/
 
-# Dane — trzymamy poza gitem, w repo zostają tylko .gitkeep
-# oraz mały zbiór projektowy credit_card_fraud_10k.csv
-data/raw/*
-data/processed/*
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-!data/raw/credit_card_fraud_10k.csv
+# Dane robocze generowane przez notebook (w repo zostaje tylko data/credit_card_fraud_10k.csv)
+data/processed/
 
 # Bazy danych
 *.db
