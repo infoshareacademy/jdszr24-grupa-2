@@ -1,4 +1,30 @@
-.idea/
-.venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Dane — trzymamy poza gitem, w repo zostają tylko .gitkeep
+# oraz mały zbiór projektowy credit_card_fraud_10k.csv
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/raw/credit_card_fraud_10k.csv
+
+# Bazy danych
+*.db
+
+# IDE / edytory
+.idea/
+.vscode/
+*.swp
+
+# System
+.DS_Store
+Thumbs.db
