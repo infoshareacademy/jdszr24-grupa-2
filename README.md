@@ -56,14 +56,37 @@ wysoka aktywność w 24 h i wysoka kwota. Wykresy — w notebooku.
 
 ```
 ├── Ocean's_Four_Project.ipynb   # cały projekt: EDA, przygotowanie danych, modele
+├── app.py                       # demo webowe (Streamlit)
+├── predict.py                   # ocena transakcji z linii poleceń
+├── fraud_model.py               # wspólny moduł modelu dla app.py i predict.py
 ├── data/
 │   └── credit_card_fraud_10k.csv
 ├── requirements.txt
 └── README.md
 ```
 
-Katalog `data/processed/` (podzielone zbiory train/test) tworzy się przy uruchomieniu
-notebooka i jest ignorowany przez git.
+Katalogi `data/processed/` (zbiory train/test) i `models/` (wytrenowany model)
+tworzą się przy uruchomieniu i są ignorowane przez git.
+
+## Demo
+
+**Aplikacja webowa (lokalnie):**
+
+```bash
+streamlit run app.py
+```
+
+Otwiera się formularz transakcji (kwota, godzina, kategoria, flagi ryzyka…) —
+model zwraca ryzyko fraudu i rekomendację. Suwak w panelu bocznym pozwala
+pokazać na żywo kompromis progu decyzyjnego. Przy pierwszym uruchomieniu model
+trenuje się ~15 s i zapisuje do `models/`.
+
+**Linia poleceń:**
+
+```bash
+python predict.py --kwota 950 --godzina 3 --kategoria Travel \
+    --zagraniczna --niezgodna-lokalizacja --trust 30 --transakcje-24h 6 --wiek 45
+```
 
 ## Uruchomienie środowiska
 

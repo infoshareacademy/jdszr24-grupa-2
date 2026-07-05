@@ -12,6 +12,9 @@ env/
 # Dane robocze generowane przez notebook (w repo zostaje tylko data/credit_card_fraud_10k.csv)
 data/processed/
 
+# Wytrenowany model (predict.py / app.py trenują go same przy pierwszym uruchomieniu)
+models/
+
 # Bazy danych
 *.db
 
